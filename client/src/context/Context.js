@@ -44,7 +44,7 @@ const getServerUrl = () => {
     return process.env.REACT_APP_SERVER_URL;
   }
   // Default to localhost:3001 for development
-  return 'http://127.0.0.1:3001';
+  return 'http://13.36.208.154:3001';
 };
 
 const SERVER_URL = getServerUrl();
