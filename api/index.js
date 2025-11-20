@@ -27,6 +27,7 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const socketIO = require('socket.io');
 const videoCallSocketHandler = require('./sockets/videoCallSocketHandler');
+const path = require('path');
 
 // Create Express app and HTTP server
 // Note: Socket.IO requires an HTTP server, not just Express
@@ -61,13 +62,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Health check endpoint
-app.get('/', (req, res) => {
-  res.json({
-    status: 'online',
-    service: 'WebRTC Signaling Server',
-    connectedClients: io.engine.clientsCount,
-    timestamp: new Date().toISOString()
-  });
+// app.get('/', (req, res) => {
+//   res.json({
+//     status: 'online',
+//     service: 'WebRTC Signaling Server',
+//     connectedClients: io.engine.clientsCount,
+//     timestamp: new Date().toISOString()
+//   });
+// });
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Server status endpoint (for monitoring)
